@@ -24,6 +24,17 @@
       color: var(--ink);
     }
 
+    /* ── PAGE BACKGROUND VIDEO ── */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      pointer-events: none;
+    }
+
         /* ── NAV ── */
     .site-header {
       background: var(--purple);
@@ -114,7 +125,7 @@
 
     /* ── SPARES PAGE ── */
     .spares-page {
-      background: var(--cream);
+      background: rgba(245, 240, 232, 0.85);
       padding: 5rem 2rem 6rem;
       min-height: calc(100vh - 96px);
     }
@@ -414,6 +425,10 @@
 </head>
 <body>
 
+  <video class="page-bg" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="assets/cycling2.webm" type="video/webm">
+  </video>
+
   <header class="site-header">
     <div class="header-inner">
       <button id="navToggle" class="nav-toggle" aria-label="Toggle menu"><span></span></button>
@@ -638,6 +653,13 @@
 
   <script>
     const toggle = document.getElementById('navToggle');
+
+    // Hold the background video still for anyone who prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const bgVid = document.querySelector('.page-bg');
+      if (bgVid) { bgVid.removeAttribute('autoplay'); bgVid.pause(); }
+    }
+
     const nav    = document.querySelector('.main-nav');
     if (toggle) {
       toggle.addEventListener('click', () => nav.classList.toggle('open'));
